@@ -43,7 +43,7 @@ A1: 餐廳清單．Final
     
 2.安裝套件
 
-    $ npm -i express express-handlebars mongoose dotenv bcryptjs connect-flash express-session method-override passport passport-facebook passport-local
+    $ npm i express express-handlebars mongoose dotenv bcryptjs connect-flash express-session method-override passport passport-facebook passport-local
     
 3.創建.env檔案 
 
