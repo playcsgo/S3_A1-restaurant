@@ -41,8 +41,8 @@ A1: 餐廳清單．Final
 
     $ git clone https://github.com/playcsgo/S3_A1-restaurant.git
     
-2.安裝套件
-
+2.安裝套件 
+    $ npm init -y
     $ npm i express express-handlebars mongoose dotenv bcryptjs connect-flash express-session method-override passport passport-facebook passport-local
     
 3.創建.env檔案 
