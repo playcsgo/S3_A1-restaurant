@@ -20,7 +20,7 @@ router.post('/new', (req, res) => {
 router.get('/:id', (req, res) => {
   const id = req.params.id
   const userId = req.user._id
-  restaurantModel.findById({ id, userId })
+  restaurantModel.findById(id)
     .lean()
     .then(data => {
       res.render('show', { restaurant: data })
@@ -46,7 +46,7 @@ router.put('/:id', (req, res) => {
   const id = req.params.id
   const userId = req.user._id
   req.body.user = userId
-  restaurantModel.findByIdAndUpdate({ id, userId }, req.body)
+  restaurantModel.findByIdAndUpdate(id, req.body)
     .then(() => res.redirect('/'))
     .catch(err => console.log(err))
 })
@@ -55,7 +55,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const id = req.params.id
   const userId = req.user._id
-  restaurantModel.findByIdAndDelete({ id, userId })
+  restaurantModel.findByIdAndDelete(id)
     .then(() => res.redirect('/'))
     .catch(err => console.log(err) )
 })
