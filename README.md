@@ -41,18 +41,18 @@ A1: 餐廳清單．Final
 
     $ git clone https://github.com/playcsgo/S3_A1-restaurant.git
     
-2.安裝套件
-
+2.安裝套件 
+    $ npm init -y
     $ npm i express express-handlebars mongoose dotenv bcryptjs connect-flash express-session method-override passport passport-facebook passport-local
     
-3.創建.env檔案 
+3.創建"自己的".env檔案 
 
-FACEBOOK_ID=SKIP
-FACEBOOK_SECRET=SKIP
-FACEBOOK_CALLBACK=http://localhost:3000/auth/facebook/callback
-SESSION_SECRET=ThisIsMySecret
-MONGODB_URI=mongodb://localhost/todo-list
-PORT=3000
+FACEBOOK_ID=SKIP  //#1 到https://developers.facebook.com/ 申請一個login的服務後可取得
+FACEBOOK_SECRET=SKIP //#2 同#1
+FACEBOOK_CALLBACK=http://localhost:3000/auth/facebook/callback  //#3 此處測試時可直接貼上, 上線時則是要按照部屬網域
+SESSION_SECRET=ThisIsMySecret //#4 可自行設定喜歡的字串
+MONGODB_URI=mongodb://localhost/todo-list  //#5 替換為自己的登入字串
+PORT=3000  //#6 看你希望使用哪個port開啟
     
 4.啟動
     
