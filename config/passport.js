@@ -14,15 +14,17 @@ module.exports = app => {
 
   // 設定localStrategy strategies裡面.
   // 要使用新版的試試看
-  passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+  passport.use(new LocalStrategy({ usernameField: 'email', passReqToCallback: true }, (req, email, password, done) => {
     userModel.findOne({ email })
       .lean()
       .then(user => {
         if (!user) {
+          req.flash('warning_msg', 'This email is not registered by flash')
           return done(null, false, { message: 'This email is not registered' })
         }
         return bcrypt.compare(password, user.password).then(isMatch => {
           if (!isMatch) {
+            req.flash('warning_msg', 'email or password incorrect by flash')
             return done(null, false, { message: 'email or password incorrect'})
           }
           return done(null, user)
