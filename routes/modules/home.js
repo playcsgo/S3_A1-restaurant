@@ -14,6 +14,8 @@ router.get('/', (req, res) => {
     })
 })
 
+
+
 // search get
 router.get('/search', (req, res) => {
   let selectedSort = {
@@ -45,20 +47,26 @@ router.get('/search', (req, res) => {
     //   selectedSort.asc = true
       // break
   }
+  const userId = req.user._id
   const keyword = req.query.keyword.trim().toLowerCase() || ''
-  restaurantModel.find()
+  const checkKeyword = (string, keyword) => {
+    return string.toLowerCase().includes(keyword)
+  }
+  restaurantModel.find({ userId })
     .lean()
     .sort(sortMethod)
     .then(results => {
       const filteredRestaurants = results.filter(restaurant =>
-        restaurant.name.toLocaleLowerCase().includes(keyword) ||
-        restaurant.name_en.toLocaleLowerCase().includes(keyword) ||
-        restaurant.category.toLocaleLowerCase().includes(keyword)
+        checkKeyword(restaurant.name, keyword) || 
+        checkKeyword(restaurant.name_en, keyword) ||
+        checkKeyword(restaurant.category, keyword)
       )
       res.render('index', { restaurantList: filteredRestaurants, selectedSort, keyword })
     })
     .catch(err => console.log(err))
 })
+
+
 
 
 module.exports = router
