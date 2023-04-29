@@ -6,7 +6,7 @@ const passport = require('passport')
 // 不是config裡面的passport設定
 const bcrypt = require('bcryptjs')
 
-
+const { query, validationResult } = require('express-validator')
 
 // login-1
 router.get('/login', (req, res) => {
@@ -23,7 +23,17 @@ router.get('/register', (req, res) => {
   res.render('register')
 })
 // register-2
-router.post('/register', (req, res) => {
+router.post('/register',[
+  query('name').notEmpty().withMessage('you should have a name'),
+  query('email').isEmail().withMessage('email cannot contain weird symbol'),
+  query('password', 'confirmPassword').custom().withMessage('password is not as same as confirm password')
+] ,(req, res) => {
+  const queryError = validationResult(req)
+  console.log(queryError);
+  if (queryError) {
+    return res.send(queryError)
+  }
+
   const {name, email, password, confirmPassword} = req.body
   const errors = []
   if (!name || !email || !password || !confirmPassword) {

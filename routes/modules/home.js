@@ -49,24 +49,30 @@ router.get('/search', (req, res) => {
   }
   const userId = req.user._id
   const keyword = req.query.keyword.trim().toLowerCase() || ''
-  const checkKeyword = (string, keyword) => {
-    return string.toLowerCase().includes(keyword)
-  }
-  restaurantModel.find({ userId })
+  // const checkKeyword = (string, keyword) => {
+  //   return string.toLowerCase().includes(keyword)
+  // }
+  // const regex = new RegExp('.*' + keyword + '.*', 'i')
+  const regex = new RegExp(keyword, 'iu')
+  restaurantModel.find({ 
+    userId, 
+    $or: [
+      { name: { $regex: regex } },
+      { name_en: { $regex: regex }},
+      { category: { $regex: regex }},
+    ]
+   })
     .lean()
     .sort(sortMethod)
     .then(results => {
-      const filteredRestaurants = results.filter(restaurant =>
-        checkKeyword(restaurant.name, keyword) || 
-        checkKeyword(restaurant.name_en, keyword) ||
-        checkKeyword(restaurant.category, keyword)
-      )
-      res.render('index', { restaurantList: filteredRestaurants, selectedSort, keyword })
+      // const filteredRestaurants = results.filter(restaurant =>
+      //   checkKeyword(restaurant.name, keyword) || 
+      //   checkKeyword(restaurant.name_en, keyword) ||
+      //   checkKeyword(restaurant.category, keyword)
+      // )
+      res.render('index', { restaurantList: results, selectedSort, keyword })
     })
     .catch(err => console.log(err))
 })
-
-
-
 
 module.exports = router
